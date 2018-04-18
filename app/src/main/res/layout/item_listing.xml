@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="85dp"
+            android:layout_height="64dp"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/ic_launcher_background"
+            android:contentDescription="@string/listing_thumbnail_desc" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:lines="2"
+            android:gravity="center_vertical"
+            android:ellipsize="end"
+            android:textSize="18sp"
+            android:layout_marginStart="10dp"
+            tools:text="Baby Gear" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/listing_id"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:layout_alignParentEnd="true"
+        android:padding="5dp"
+        tools:text="6623958"
+        tools:ignore="RelativeOverlap" />
+
+</RelativeLayout>
