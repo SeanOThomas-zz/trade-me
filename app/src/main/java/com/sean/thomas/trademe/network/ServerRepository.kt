@@ -4,6 +4,9 @@ import com.sean.thomas.trademe.network.models.Category
 import com.sean.thomas.trademe.network.models.Listing
 import io.reactivex.Flowable
 
+/**
+ * A server only [Repository] implementation.
+ */
 class ServerRepository: Repository {
 
     companion object {
