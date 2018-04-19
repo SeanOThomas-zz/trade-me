@@ -11,6 +11,9 @@ import com.sean.thomas.trademe.network.models.Listing
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_listing.view.*
 
+/**
+ * Populates a listings recycler view.
+ */
 class ListingsAdapter (
     private val onListingClicked: (listing: Listing) -> Unit
     ): RecyclerView.Adapter<ListingsAdapter.ListingViewHolder>() {

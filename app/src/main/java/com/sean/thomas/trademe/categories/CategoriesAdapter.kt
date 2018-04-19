@@ -9,6 +9,9 @@ import com.sean.thomas.trademe.R
 import com.sean.thomas.trademe.network.models.Category
 import kotlinx.android.synthetic.main.item_category.view.*
 
+/**
+ * Populates a categories recycler view.
+ */
 class CategoriesAdapter(
         private val onCategoryClicked: (category: Category) -> Unit
 ): RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {

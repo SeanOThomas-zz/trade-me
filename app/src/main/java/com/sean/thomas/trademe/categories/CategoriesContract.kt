@@ -4,6 +4,9 @@ import com.sean.thomas.trademe.BasePresenter
 import com.sean.thomas.trademe.BaseView
 import com.sean.thomas.trademe.network.models.Category
 
+/**
+ * Defines the contract between the categories view and presenter.
+ */
 interface CategoriesContract {
 
     interface View: BaseView {

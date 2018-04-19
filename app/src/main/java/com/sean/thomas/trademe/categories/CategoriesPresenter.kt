@@ -9,6 +9,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import org.apache.commons.lang3.StringUtils
 
+/**
+ * Presenter for the categories portion of the screen.
+ */
 class CategoriesPresenter(
         private val view: CategoriesContract.View,
         private val repository: Repository
@@ -22,9 +25,11 @@ class CategoriesPresenter(
     private lateinit var categoryTree: Category
     private var currentCategoryId: String = ""
 
+    /**
+     * Request the category tree then update the view.
+     */
     override fun setUp() {
         view.showProgress()
-        // get the category tree then update the view
         disposables.add(
                 repository.getCategoryTree()
                         .subscribeOn(Schedulers.io())
@@ -48,6 +53,9 @@ class CategoriesPresenter(
         disposables.clear()
     }
 
+    /**
+     * Publish the event for exogenous listeners, then display the new subcategories if they exist.
+     */
     override fun onCategoryClicked(category: Category) {
         Bus.publish(category)
 
@@ -57,16 +65,17 @@ class CategoriesPresenter(
         }
     }
 
+    /**
+     * Display the root (i.e., last set of) subcategories. If the root id is empty, then finish.
+     */
     override fun onBackPressed() {
         if (currentCategoryId.isEmpty()) {
             return view.finish()
         }
-        // display the last set of categories (i.e., the root category's subcategories)
-        val rootCategory = getRootCategory(currentCategoryId)
-        currentCategoryId = rootCategory.categoryId
-        view.setCategories(rootCategory.subCategories?: ArrayList())
 
-        Bus.publish(rootCategory)
+        val rootCategory = getRootCategory(currentCategoryId)
+
+        onCategoryClicked(rootCategory)
     }
 
     /**
@@ -79,10 +88,10 @@ class CategoriesPresenter(
         var tempRoot = categoryTree
 
         for(i in 1..(depth - 1)) {
-            // note, the i'th '-' is the last char of tempId
+            // the i'th '-' is the last char of tempId
             val lastIndex = StringUtils.ordinalIndexOf(categoryId, "-", i)
 
-            // the category id for the current depth
+            // the cat id for the current depth
             val tempId = categoryId.subSequence(0, lastIndex + 1)
 
             // filter subcategories for tempId. note, every root should have subcategories, hence

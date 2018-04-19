@@ -11,6 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_categories.*
 
+/**
+ * Responsibilities include: logging lifecycle transitions and implementing [BaseView] methods.
+ */
 abstract class BaseListFragment: Fragment(), BaseView {
 
     companion object {

@@ -15,32 +15,26 @@ class ListingsPresenter(
 
     companion object {
         const val TAG = "ListingsPresenter"
+        const val DEFAULT_ROOT_CAT_ID = ""
     }
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun setUp(category: Category?) {
-        getListings(category?.categoryId ?: "", category?.name ?: "")
+    override fun setUp(category: Category) {
+        getListings(category.categoryId, category.name)
     }
 
-    override fun setUp() {}
-
-    override fun onResume() {
-        // listen for new category events
-        disposables.add(Bus.observe(Category::class.java)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({getListings(it.categoryId, it.name)})
-        )
+    override fun setUp() {
+        getListings(DEFAULT_ROOT_CAT_ID, "")
     }
 
-    override fun onPause() {
-        disposables.clear()
+    override fun onNewCategory(category: Category) {
+        getListings(category.categoryId, category.name)
     }
 
     /**
-     * Gets listings for the the provided [Category]. If there's no listings, the view will show
-     * an empty screen.
+     * Requests listings for the the provided [Category]. If there's no listings, have the view
+     * show an empty screen.
      */
     private fun getListings(categoryId: String, categoryName: String) {
         view.showProgress()
@@ -71,5 +65,7 @@ class ListingsPresenter(
         //TODO: implement
     }
 
-    override fun tearDown() {}
+    override fun tearDown() {
+        disposables.clear()
+    }
 }
