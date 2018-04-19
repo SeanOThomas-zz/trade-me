@@ -45,4 +45,8 @@
         tools:text="6623958"
         tools:ignore="RelativeOverlap" />
 
+    <View
+        style="@style/divider"
+        android:layout_alignParentBottom="true"/>
+
 </RelativeLayout>

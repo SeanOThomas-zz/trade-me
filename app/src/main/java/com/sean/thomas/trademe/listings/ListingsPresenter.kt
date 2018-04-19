@@ -20,7 +20,7 @@ class ListingsPresenter(
     private val disposables: CompositeDisposable = CompositeDisposable()
 
     override fun setUp(category: Category?) {
-        getListings(category?.categoryId ?: "")
+        getListings(category?.categoryId ?: "", category?.name ?: "")
     }
 
     override fun setUp() {}
@@ -30,7 +30,7 @@ class ListingsPresenter(
         disposables.add(Bus.observe(Category::class.java)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({getListings(it.categoryId)})
+                .subscribe({getListings(it.categoryId, it.name)})
         )
     }
 
@@ -39,19 +39,24 @@ class ListingsPresenter(
     }
 
     /**
-     * Gets listings for the category associated with [categoryNum].
+     * Gets listings for the the provided [Category]. If there's no listings, the view will show
+     * an empty screen.
      */
-    private fun getListings(categoryNum: String) {
+    private fun getListings(categoryId: String, categoryName: String) {
         view.showProgress()
         disposables.add(
-                repository.getListings(categoryNum)
+                repository.getListings(categoryId)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ listings ->
-
                             view.hideProgress()
 
-                            view.setListings(listings)
+                            if(listings.isEmpty()) {
+                                view.showEmptyScreen(categoryName)
+                            } else {
+                                view.hideEmptyScreen()
+                                view.setListings(listings)
+                            }
                         }, {
                             error ->
                             view.hideProgress()

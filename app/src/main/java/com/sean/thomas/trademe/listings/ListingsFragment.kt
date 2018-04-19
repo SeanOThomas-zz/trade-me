@@ -1,20 +1,23 @@
 package com.sean.thomas.trademe.listings
 
-import android.nfc.Tag
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.sean.thomas.trademe.BaseListFragment
+import com.sean.thomas.trademe.R
 import com.sean.thomas.trademe.network.ServerRepository
 import com.sean.thomas.trademe.network.models.Category
 import com.sean.thomas.trademe.network.models.Listing
-import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.empty_listings.*
+import kotlinx.android.synthetic.main.fragment_listings.*
 
 class ListingsFragment: BaseListFragment(), ListingsContract.View {
 
     companion object {
         const val TAG = "ListingsFragment"
-
         const val CATEGORY_KEY = "category_key"
 
         fun newInstance(category: Category? = null): ListingsFragment {
@@ -34,6 +37,10 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
         presenter.onListingClicked(it.listingId)
     })
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_listings, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,12 +49,24 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
 
         presenter = ListingsPresenter(this, ServerRepository())
 
-        val categoryArg = arguments?.get(CATEGORY_KEY)
-        if (categoryArg != null) {
-            presenter.setUp(categoryArg as Category)
+        val category = arguments?.get(CATEGORY_KEY)
+        if (category != null) {
+            presenter.setUp(category as Category)
         } else {
             presenter.setUp(null)
         }
+    }
+
+    override fun showEmptyScreen(categoryTitle: String) {
+        Log.i(TAG, "showEmptyScreen")
+        empty_view.visibility = View.VISIBLE
+
+        empty_message.text = activity?.getString(R.string.empty_listings_message, categoryTitle)
+    }
+
+    override fun hideEmptyScreen() {
+        Log.i(TAG, "hideEmptyScreen")
+        empty_view.visibility = View.GONE
     }
 
     override fun onResume() {
@@ -58,14 +77,6 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
     override fun onPause() {
         presenter.onPause()
         super.onPause()
-    }
-
-    override fun hide() {
-        root.visibility = View.GONE
-    }
-
-    override fun show() {
-        root.visibility = View.VISIBLE
     }
 
     override fun setListings(listings: List<Listing>) {

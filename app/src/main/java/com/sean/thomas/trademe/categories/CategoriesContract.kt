@@ -8,8 +8,6 @@ interface CategoriesContract {
 
     interface View: BaseView {
         fun setCategories(categories: List<Category>)
-        fun hide()
-        fun show()
         fun finish()
     }
 
