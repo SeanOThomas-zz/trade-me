@@ -10,13 +10,17 @@ import com.sean.thomas.trademe.R
 import com.sean.thomas.trademe.network.ServerRepository
 import com.sean.thomas.trademe.network.models.Category
 import com.sean.thomas.trademe.network.models.Listing
+import com.sean.thomas.trademe.schedulers.SchedulersProviderImpl
 import kotlinx.android.synthetic.main.empty_listings.*
 import kotlinx.android.synthetic.main.fragment_listings.*
 
+/**
+ * The view for the listings portion of the screen.
+ */
 class ListingsFragment: BaseListFragment(), ListingsContract.View {
 
     companion object {
-        const val TAG = "ListingsFragment"
+        val TAG = ListingsFragment::class.java.canonicalName!!
         const val CATEGORY_KEY = "category_key"
 
         fun newInstance(category: Category? = null): ListingsFragment {
@@ -56,7 +60,7 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
 
         // don't set up the presenter after a restore
         if(!this::presenter.isInitialized) {
-            presenter = ListingsPresenter(this, ServerRepository())
+            presenter = ListingsPresenter(this, ServerRepository(), SchedulersProviderImpl)
 
             val category = arguments?.get(CATEGORY_KEY) ?: return presenter.setUp()
             presenter.setUp(category as Category)

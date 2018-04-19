@@ -4,6 +4,7 @@ import android.util.Log
 import com.sean.thomas.trademe.Bus
 import com.sean.thomas.trademe.network.Repository
 import com.sean.thomas.trademe.network.models.Category
+import com.sean.thomas.trademe.schedulers.SchedulersProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -14,11 +15,12 @@ import org.apache.commons.lang3.StringUtils
  */
 class CategoriesPresenter(
         private val view: CategoriesContract.View,
-        private val repository: Repository
+        private val repository: Repository,
+        private val schedulersProvider: SchedulersProvider
 ): CategoriesContract.Presenter {
 
     companion object {
-        const val TAG = "CategoriesPresenter"
+        val TAG = CategoriesPresenter::class.java.canonicalName!!
     }
 
     private val disposables: CompositeDisposable = CompositeDisposable()
@@ -32,8 +34,8 @@ class CategoriesPresenter(
         view.showProgress()
         disposables.add(
                 repository.getCategoryTree()
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(schedulersProvider.background())
+                        .observeOn(schedulersProvider.mainThread())
                         .subscribe({ root ->
                             view.hideProgress()
 

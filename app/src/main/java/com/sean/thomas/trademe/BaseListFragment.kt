@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_categories.*
 abstract class BaseListFragment: Fragment(), BaseView {
 
     companion object {
-        const val TAG = "BaseListFragment"
+        val TAG = BaseListFragment::class.java.canonicalName!!
     }
 
     override fun onAttach(context: Context?) {

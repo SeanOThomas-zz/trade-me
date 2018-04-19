@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import com.sean.thomas.trademe.categories.CategoriesFragment
 import com.sean.thomas.trademe.listings.ListingsFragment
 import com.sean.thomas.trademe.network.models.Category
+import com.sean.thomas.trademe.schedulers.SchedulersProviderImpl
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -52,8 +53,8 @@ class MainActivity: AppCompatActivity() {
 
         // listen for new category events
         disposables.add(Bus.observe(Category::class.java)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(SchedulersProviderImpl.background())
+                .observeOn(SchedulersProviderImpl.mainThread())
                 .subscribe({handleCategory(it)})
         )
     }

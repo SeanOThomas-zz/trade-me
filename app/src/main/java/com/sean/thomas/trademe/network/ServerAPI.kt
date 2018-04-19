@@ -3,15 +3,12 @@ package com.sean.thomas.trademe.network
 import com.sean.thomas.trademe.network.models.Category
 import com.sean.thomas.trademe.network.models.ListingsResponse
 import io.reactivex.Flowable
-import okhttp3.Interceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
-import okhttp3.OkHttpClient
-
 
 
 interface ServerAPI {

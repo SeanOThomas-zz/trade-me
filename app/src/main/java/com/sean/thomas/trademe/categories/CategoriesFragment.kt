@@ -9,12 +9,16 @@ import com.sean.thomas.trademe.BaseListFragment
 import com.sean.thomas.trademe.R
 import com.sean.thomas.trademe.network.ServerRepository
 import com.sean.thomas.trademe.network.models.Category
+import com.sean.thomas.trademe.schedulers.SchedulersProviderImpl
 import kotlinx.android.synthetic.main.fragment_categories.*
 
+/**
+ * The view for the categories portion of the screen.
+ */
 class CategoriesFragment: BaseListFragment(), CategoriesContract.View {
 
     companion object {
-        const val TAG = "CategoriesFragment"
+        val TAG = CategoriesFragment::class.java.canonicalName!!
 
         fun newInstance(): CategoriesFragment = CategoriesFragment()
     }
@@ -35,7 +39,7 @@ class CategoriesFragment: BaseListFragment(), CategoriesContract.View {
 
         // only set up presenter if not restored
         if (!this::presenter.isInitialized) {
-            presenter = CategoriesPresenter(this, ServerRepository())
+            presenter = CategoriesPresenter(this, ServerRepository(), SchedulersProviderImpl)
             presenter.setUp()
         }
     }

@@ -1,16 +1,16 @@
 package com.sean.thomas.trademe.listings
 
 import android.util.Log
-import com.sean.thomas.trademe.Bus
 import com.sean.thomas.trademe.network.Repository
 import com.sean.thomas.trademe.network.models.Category
+import com.sean.thomas.trademe.schedulers.SchedulersProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 
 class ListingsPresenter(
         private val view: ListingsContract.View,
-        private val repository: Repository
+        private val repository: Repository,
+        private val schedulersProvider: SchedulersProvider
 ): ListingsContract.Presenter {
 
     companion object {
@@ -40,8 +40,8 @@ class ListingsPresenter(
         view.showProgress()
         disposables.add(
                 repository.getListings(categoryId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(schedulersProvider.background())
+                        .observeOn(schedulersProvider.mainThread())
                         .subscribe({ listings ->
                             view.hideProgress()
 
