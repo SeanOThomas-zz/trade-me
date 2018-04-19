@@ -5,10 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="#ffffff">
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/empty_message"
+        style="@style/GreyText.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"

@@ -8,6 +8,8 @@ data class Category(
         val name: String,
         @SerializedName("Number")
         val categoryId: String,
+        @SerializedName("Count")
+        val count: Int = 0,
         @SerializedName("Subcategories")
         val subCategories: List<Category>?
 ): Serializable

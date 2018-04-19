@@ -1,8 +1,6 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -12,20 +10,24 @@
     <style name="divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/divider_grey</item>
+        <item name="android:background">@color/grey_divider</item>
     </style>
 
-    <style name="BaseText">
-        <item name="android:textColor">@color/text_grey</item>
-    </style>
-
-    <style name="Title" parent="BaseText">
-        <item name="android:textSize">20sp</item>
+    <style name="GreyText">
+        <item name="android:textColor">@color/grey_text</item>
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="SubTitle" parent="BaseText">
+    <style name="GreyText.Title">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="GreyText.Subtitle">
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="GreyText.SmallValue">
+        <item name="android:textSize">13.5sp</item>
     </style>
 
 </resources>

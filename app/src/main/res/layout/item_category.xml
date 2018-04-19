@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/row_height_small">
+    android:layout_height="@dimen/row_height_small"
+    android:background="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,18 +15,19 @@
 
         <TextView
             android:id="@+id/category"
-            style="@style/Title"
+            style="@style/GreyText.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:lines="1"
             tools:text="Baby Gear" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/count"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--tools:text="(124)" />-->
+        <TextView
+            android:id="@+id/count"
+            style="@style/GreyText.SmallValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="(124)" />
 
     </LinearLayout>
 

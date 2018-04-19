@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/title"
-            style="@style/Title"
+            style="@style/GreyText.Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -36,6 +36,7 @@
 
     <TextView
         android:id="@+id/listing_id"
+        style="@style/GreyText.SmallValue"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="bottom"
