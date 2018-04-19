@@ -1,22 +1,31 @@
 package com.sean.thomas.trademe.listings
 
+import android.nfc.Tag
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.sean.thomas.trademe.BaseListFragment
 import com.sean.thomas.trademe.network.ServerRepository
+import com.sean.thomas.trademe.network.models.Category
 import com.sean.thomas.trademe.network.models.Listing
 import kotlinx.android.synthetic.main.fragment_list.*
 
 class ListingsFragment: BaseListFragment(), ListingsContract.View {
 
     companion object {
-        fun newInstance(): ListingsFragment = ListingsFragment()
-    }
+        const val TAG = "ListingsFragment"
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        retainInstance = true
+        const val CATEGORY_KEY = "category_key"
+
+        fun newInstance(category: Category? = null): ListingsFragment {
+            val frag = ListingsFragment()
+            val bundle = Bundle()
+            if (category != null) {
+                bundle.putSerializable(CATEGORY_KEY, category)
+            }
+            frag.arguments = bundle
+            return frag
+        }
     }
 
     private lateinit var presenter: ListingsContract.Presenter
@@ -26,11 +35,26 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
     })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.adapter = listingsAdapter
 
-        presenter = ListingsPresenter(this, ServerRepository())
-        presenter.setUp()
+        // only set up presenter if not restored
+        if (!this::presenter.isInitialized) {
+            presenter = ListingsPresenter(this, ServerRepository())
+            presenter.setUp(arguments?.get(CATEGORY_KEY) as Category)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
+    }
+
+    override fun onPause() {
+        presenter.onPause()
+        super.onPause()
     }
 
     override fun hide() {
@@ -48,5 +72,9 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
     override fun onDestroy() {
         presenter.tearDown()
         super.onDestroy()
+    }
+
+    override fun getChildTag(): String {
+        return TAG
     }
 }

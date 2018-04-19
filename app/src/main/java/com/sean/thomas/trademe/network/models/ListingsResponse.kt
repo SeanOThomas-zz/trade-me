@@ -1,6 +1,7 @@
 package com.sean.thomas.trademe.network.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 
 data class ListingsResponse(

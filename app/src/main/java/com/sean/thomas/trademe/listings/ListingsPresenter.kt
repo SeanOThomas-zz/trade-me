@@ -19,15 +19,23 @@ class ListingsPresenter(
 
     private val disposables: CompositeDisposable = CompositeDisposable()
 
-    override fun setUp() {
+    override fun setUp(category: Category?) {
+        getListings(category?.categoryId ?: "")
+    }
+
+    override fun setUp() {}
+
+    override fun onResume() {
         // listen for new category events
         disposables.add(Bus.observe(Category::class.java)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({getListings(it.number)})
+                .subscribe({getListings(it.categoryId)})
         )
-        // get root listings
-        getListings("")
+    }
+
+    override fun onPause() {
+        disposables.clear()
     }
 
     /**
@@ -40,6 +48,7 @@ class ListingsPresenter(
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe({ listings ->
+
                             view.hideProgress()
 
                             view.setListings(listings)
@@ -57,7 +66,5 @@ class ListingsPresenter(
         //TODO: implement
     }
 
-    override fun tearDown() {
-        disposables.clear()
-    }
+    override fun tearDown() {}
 }

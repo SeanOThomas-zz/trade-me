@@ -20,11 +20,10 @@ class CategoriesPresenter(
 
     private val disposables: CompositeDisposable = CompositeDisposable()
     private lateinit var categoryTree: Category
-    private var currentCategoryNum: String = ""
+    private var currentCategoryId: String = ""
 
     override fun setUp() {
         view.showProgress()
-
         // get the category tree then update the view
         disposables.add(
                 repository.getCategoryTree()
@@ -34,7 +33,7 @@ class CategoriesPresenter(
                             view.hideProgress()
 
                             categoryTree = root
-                            view.setCategories(categoryTree.subCategories)
+                            view.setCategories(categoryTree.subCategories?: ArrayList())
                         }, {
                             error ->
                             view.hideProgress()
@@ -52,64 +51,47 @@ class CategoriesPresenter(
     override fun onCategoryClicked(category: Category) {
         Bus.publish(category)
 
-        if(category.isLeaf || category.subCategories.isEmpty()) {
-            //TODO: remove?
-            return view.hide()
+        if (category.subCategories != null) {
+            currentCategoryId = category.categoryId
+            view.setCategories(category.subCategories)
         }
-
-        currentCategoryNum = category.number
-        view.setCategories(category.subCategories)
     }
 
     override fun onBackPressed() {
-        if (currentCategoryNum.isEmpty()) {
+        if (currentCategoryId.isEmpty()) {
             return view.finish()
         }
-        // after a back press, categories should always show
-        view.show() //TODO: remove?
-
         // display the last set of categories (i.e., the root category's subcategories)
-        val rootCategory = getRootCategory(currentCategoryNum)
-        currentCategoryNum = rootCategory.number
-        view.setCategories(rootCategory.subCategories)
+        val rootCategory = getRootCategory(currentCategoryId)
+        currentCategoryId = rootCategory.categoryId
+        view.setCategories(rootCategory.subCategories?: ArrayList())
 
         Bus.publish(rootCategory)
     }
 
-    private fun getRootCategory(currentNum: String) : Category {
-        val rootCategoryNum = getRootNum(currentNum)
+    /**
+     * If the current category id is "1234-5678-", gets the root category with id "1234-" from
+     * [categoryTree].
+     */
+    private fun getRootCategory(categoryId: String) : Category {
+        val depth = categoryId.count({ it == '-'})
 
-        var currentRoot = categoryTree
+        var tempRoot = categoryTree
 
-        val depth = rootCategoryNum.count({ it == '-'})
-        for(i in 1..depth) {
-            // get index of last hyphen for current depth
-            val last = StringUtils.ordinalIndexOf(rootCategoryNum, "-", i)
+        for(i in 1..(depth - 1)) {
+            // note, the i'th '-' is the last char of tempId
+            val lastIndex = StringUtils.ordinalIndexOf(categoryId, "-", i)
 
-            // get category num for current depth
-            val currCategoryNum = rootCategoryNum.subSequence(0, last + 1)
+            // the category id for the current depth
+            val tempId = categoryId.subSequence(0, lastIndex + 1)
 
-            // filter the category with same num
-            currentRoot = currentRoot.subCategories.filter({
-                it.number == currCategoryNum
+            // filter subcategories for tempId. note, every root should have subcategories, hence
+            // the bang operator.
+            tempRoot = tempRoot.subCategories!!.filter({
+                it.categoryId == tempId
             })[0]
         }
 
-        return currentRoot
-    }
-
-    /**
-     * Gets the root (i.e., last) category number. For example, if [currentNum] is "0351-2439-", the
-     * result would be "0351-".
-     *
-     * @param currentNum the current category number
-     * @return the root category number
-     */
-    private fun getRootNum(currentNum: String): String  {
-        val depth = currentNum.count({ it == '-'})
-
-        val indexOfSecondToLastHyphen = StringUtils.ordinalIndexOf(currentNum, "-", depth - 1)
-
-        return currentNum.substring(0, indexOfSecondToLastHyphen + 1)
+        return tempRoot
     }
 }
