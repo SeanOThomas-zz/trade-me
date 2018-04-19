@@ -37,9 +37,6 @@ class CategoriesAdapter(
 
         holder.category.text = category.name
 
-        val formattedCount = holder.itemView.context.getString(R.string.category_count, category.count)
-        holder.count.text = formattedCount
-
         holder.itemView.setOnClickListener({onCategoryClicked(category)})
     }
 

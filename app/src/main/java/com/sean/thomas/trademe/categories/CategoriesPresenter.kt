@@ -1,5 +1,6 @@
 package com.sean.thomas.trademe.categories
 
+import android.support.annotation.VisibleForTesting
 import android.util.Log
 import com.sean.thomas.trademe.Bus
 import com.sean.thomas.trademe.network.Repository
@@ -75,16 +76,17 @@ class CategoriesPresenter(
             return view.finish()
         }
 
-        val rootCategory = getRootCategory(currentCategoryId)
+        val rootCategory = getRootCategory(categoryTree, currentCategoryId)
 
-        onCategoryClicked(rootCategory)
+        onCategoryClicked( rootCategory)
     }
 
     /**
      * If the current category id is "1234-5678-", gets the root category with id "1234-" from
      * [categoryTree].
      */
-    private fun getRootCategory(categoryId: String) : Category {
+    @VisibleForTesting
+    fun getRootCategory(categoryTree: Category,  categoryId: String) : Category {
         val depth = categoryId.count({ it == '-'})
 
         var tempRoot = categoryTree

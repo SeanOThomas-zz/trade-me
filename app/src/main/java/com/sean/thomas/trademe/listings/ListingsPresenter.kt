@@ -1,5 +1,6 @@
 package com.sean.thomas.trademe.listings
 
+import android.support.annotation.VisibleForTesting
 import android.util.Log
 import com.sean.thomas.trademe.network.Repository
 import com.sean.thomas.trademe.network.models.Category
@@ -36,7 +37,8 @@ class ListingsPresenter(
      * Requests listings for the the provided [Category]. If there's no listings, have the view
      * show an empty screen.
      */
-    private fun getListings(categoryId: String, categoryName: String) {
+    @VisibleForTesting
+    fun getListings(categoryId: String, categoryName: String) {
         view.showProgress()
         disposables.add(
                 repository.getListings(categoryId)
