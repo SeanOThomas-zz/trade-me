@@ -40,10 +40,13 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.adapter = listingsAdapter
 
-        // only set up presenter if not restored
-        if (!this::presenter.isInitialized) {
-            presenter = ListingsPresenter(this, ServerRepository())
-            presenter.setUp(arguments?.get(CATEGORY_KEY) as Category)
+        presenter = ListingsPresenter(this, ServerRepository())
+
+        val categoryArg = arguments?.get(CATEGORY_KEY)
+        if (categoryArg != null) {
+            presenter.setUp(categoryArg as Category)
+        } else {
+            presenter.setUp(null)
         }
     }
 
