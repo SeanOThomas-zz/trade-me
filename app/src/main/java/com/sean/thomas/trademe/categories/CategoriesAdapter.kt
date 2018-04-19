@@ -20,7 +20,6 @@ class CategoriesAdapter(
 
     class CategoryViewHolder(v: View): RecyclerView.ViewHolder(v) {
         val category: TextView = v.category
-        val count: TextView = v.count
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryViewHolder {
@@ -36,7 +35,6 @@ class CategoriesAdapter(
         val category = categories[position]
 
         holder.category.text = category.name
-
         holder.itemView.setOnClickListener({onCategoryClicked(category)})
     }
 
