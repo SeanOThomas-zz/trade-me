@@ -1,6 +1,7 @@
 package com.sean.thomas.trademe.network
 
 import com.sean.thomas.trademe.network.models.Category
+import com.sean.thomas.trademe.network.models.ListingDetail
 import com.sean.thomas.trademe.network.models.ListingsResponse
 import io.reactivex.Flowable
 import retrofit2.Retrofit
@@ -8,6 +9,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -41,4 +43,10 @@ interface ServerAPI {
             @Query("category") categoryNumber: String,
             @Query("rows") numListings: Int = DEFAULT_NUM_LISTINGS,
             @Query("photo_size") photoSize: String = DEFAULT_PHOTO_SIZE): Flowable<ListingsResponse>
+
+    @GET("Listings/{listingId}.json")
+    fun getListingDetail(
+            @Header("Authorization") authorization: String,
+            @Header("Content-Type") contentType: String,
+            @Path("listingId") listingId: String): Flowable<ListingDetail>
 }

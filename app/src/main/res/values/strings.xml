@@ -2,6 +2,10 @@
     <string name="app_name">TradeMe</string>
     <string name="network_error_message">Network error, please try again later</string>
     <string name="category_count">(%1$d)</string>
-    <string name="listing_thumbnail_desc">Listing image</string>
+    <string name="listing_thumbnail_desc">Listing thumbnail</string>
     <string name="empty_listings_message">No listings for\n%1$s</string>
+    <string name="listing_detail_image_desc">Listing detail image</string>
+    <string name="start_price">Start price: &amp;%1$d</string>
+    <string name="buy_now_price">Buy now price: &amp;%1$d</string>
+    <string name="view_count">View count: %1$d</string>
 </resources>

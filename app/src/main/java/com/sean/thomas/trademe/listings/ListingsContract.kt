@@ -18,7 +18,7 @@ interface ListingsContract {
 
     interface Presenter: BasePresenter {
         fun setUp(category: Category)
-        fun onListingClicked(listingId: String)
+        fun onListingClicked(listing: Listing)
         fun onNewCategory(category: Category)
     }
 }

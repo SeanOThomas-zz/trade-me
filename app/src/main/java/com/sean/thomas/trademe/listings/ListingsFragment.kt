@@ -5,7 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sean.thomas.trademe.BaseListFragment
+import com.sean.thomas.trademe.BaseFragment
 import com.sean.thomas.trademe.R
 import com.sean.thomas.trademe.network.ServerRepository
 import com.sean.thomas.trademe.network.models.Category
@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_listings.*
 /**
  * The view for the listings portion of the screen.
  */
-class ListingsFragment: BaseListFragment(), ListingsContract.View {
+class ListingsFragment: BaseFragment(), ListingsContract.View {
 
     companion object {
         val TAG = ListingsFragment::class.java.canonicalName!!
@@ -42,7 +42,7 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
     private var emptyCategoryTitle: String = ""
 
     private val listingsAdapter: ListingsAdapter = ListingsAdapter({
-        presenter.onListingClicked(it.listingId)
+        presenter.onListingClicked(it)
     })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -105,7 +105,5 @@ class ListingsFragment: BaseListFragment(), ListingsContract.View {
         super.onDestroy()
     }
 
-    override fun getChildTag(): String {
-        return TAG
-    }
+    override fun getChildTag(): String = TAG
 }

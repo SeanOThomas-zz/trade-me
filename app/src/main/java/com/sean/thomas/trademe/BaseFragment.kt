@@ -14,10 +14,10 @@ import kotlinx.android.synthetic.main.fragment_categories.*
 /**
  * Responsibilities include: logging lifecycle transitions and implementing [BaseView] methods.
  */
-abstract class BaseListFragment: Fragment(), BaseView {
+abstract class BaseFragment: Fragment(), BaseView {
 
     companion object {
-        val TAG = BaseListFragment::class.java.canonicalName!!
+        val TAG = BaseFragment::class.java.canonicalName!!
     }
 
     override fun onAttach(context: Context?) {

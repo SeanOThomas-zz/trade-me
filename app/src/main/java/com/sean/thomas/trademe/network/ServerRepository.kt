@@ -2,6 +2,7 @@ package com.sean.thomas.trademe.network
 
 import com.sean.thomas.trademe.network.models.Category
 import com.sean.thomas.trademe.network.models.Listing
+import com.sean.thomas.trademe.network.models.ListingDetail
 import io.reactivex.Flowable
 
 /**
@@ -27,6 +28,10 @@ class ServerRepository: Repository {
                         .toList()
                         .toFlowable()
                 })
+    }
+
+    override fun getListingDetail(listingId: String): Flowable<ListingDetail> {
+        return serverAPI.getListingDetail(getToken(), CONTENT_TYPE, listingId)
     }
 
     private fun getToken(): String =

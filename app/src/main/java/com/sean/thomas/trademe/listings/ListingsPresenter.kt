@@ -2,8 +2,10 @@ package com.sean.thomas.trademe.listings
 
 import android.support.annotation.VisibleForTesting
 import android.util.Log
+import com.sean.thomas.trademe.Bus
 import com.sean.thomas.trademe.network.Repository
 import com.sean.thomas.trademe.network.models.Category
+import com.sean.thomas.trademe.network.models.Listing
 import com.sean.thomas.trademe.schedulers.SchedulersProvider
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -63,8 +65,8 @@ class ListingsPresenter(
         )
     }
 
-    override fun onListingClicked(listingId: String) {
-        //TODO: implement
+    override fun onListingClicked(listing: Listing) {
+        Bus.publish(listing)
     }
 
     override fun tearDown() {

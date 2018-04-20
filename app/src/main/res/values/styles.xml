@@ -18,6 +18,10 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <style name="GreyText.BigTitle">
+        <item name="android:textSize">26sp</item>
+    </style>
+
     <style name="GreyText.Title">
         <item name="android:textSize">20sp</item>
     </style>

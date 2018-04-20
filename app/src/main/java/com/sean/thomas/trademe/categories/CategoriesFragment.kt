@@ -5,8 +5,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sean.thomas.trademe.BaseListFragment
+import com.sean.thomas.trademe.BaseFragment
 import com.sean.thomas.trademe.R
+import com.sean.thomas.trademe.listings.ListingsFragment
 import com.sean.thomas.trademe.network.ServerRepository
 import com.sean.thomas.trademe.network.models.Category
 import com.sean.thomas.trademe.schedulers.SchedulersProviderImpl
@@ -15,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_categories.*
 /**
  * The view for the categories portion of the screen.
  */
-class CategoriesFragment: BaseListFragment(), CategoriesContract.View {
+class CategoriesFragment: BaseFragment(), CategoriesContract.View {
 
     companion object {
         val TAG = CategoriesFragment::class.java.canonicalName!!
@@ -61,7 +62,5 @@ class CategoriesFragment: BaseListFragment(), CategoriesContract.View {
         presenter.onBackPressed()
     }
 
-    override fun getChildTag(): String {
-        return TAG
-    }
+    override fun getChildTag(): String = CategoriesFragment.TAG
 }
